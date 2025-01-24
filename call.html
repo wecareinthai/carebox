@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>โทรออกจาก URL</title>
+</head>
+<body>
+    <script>
+        // ฟังก์ชันสำหรับดึงค่าพารามิเตอร์จาก URL
+        function getParameterByName(name, url = window.location.href) {
+            name = name.replace(/[\[\]]/g, '\\$&');
+            const regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)');
+            const results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, ' '));
+        }
+
+        // ดึงค่า phoneNumber จาก URL
+        const phoneNumber = getParameterByName('phoneNumber');
+
+        // ตรวจสอบว่ามีค่า phoneNumber หรือไม่
+        if (phoneNumber) {
+            // สร้างลิงก์สำหรับโทรออก
+            const telLink = `tel:${phoneNumber}`;
+
+            // ทำการ redirect ไปยังลิงก์โทรออก
+            window.location.href = telLink;
+        } else {
+            console.error("ไม่พบเบอร์โทรศัพท์ใน URL");
+        }
+    </script>
+</body>
+</html>
